@@ -22,7 +22,7 @@ discord_loop() {
     DISCORD_WEBHOOK_INTERVAL=${DISCORD_WEBHOOK_INTERVAL:-300}
     local SCREENSHOT_PATH="/tmp/screenshot.png"
     local DISCORD_WEBHOOK_URL="$DISCORD_WEBHOOK_URL"
-    local HOSTNAME="$(HOSTNAME)"
+    local HOSTNAME="$HOSTNAME"
 
     if [[ -z "$DISCORD_WEBHOOK_URL" || ! "$DISCORD_WEBHOOK_URL" =~ ^https://discord\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+$ ]]; then
         echo "Invalid or missing Discord webhook URL. Exiting..."
