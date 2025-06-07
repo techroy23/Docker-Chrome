@@ -14,7 +14,7 @@ This project provides a lightweight Docker container running **Google Chrome in 
 - #### Option:1
 ```
 docker run -d --name docker-chrome \
-  --pull=always
+  --pull=always \
   -e URL="https://www.google.com" \
   -e DISCORD_WEBHOOK_URL="your_dicord_webhook_url" \
   -e DISCORD_WEBHOOK_INTERVAL=300 \
@@ -26,7 +26,7 @@ docker run -d --name docker-chrome \
 - #### Option:2 - customized ports
 ```
 docker run -d --name docker-chrome \
-  --pull=always
+  --pull=always \
   -e URL="https://www.google.com" \
   -e DISCORD_WEBHOOK_URL="your_dicord_webhook_url" \
   -e DISCORD_WEBHOOK_INTERVAL=300 \
