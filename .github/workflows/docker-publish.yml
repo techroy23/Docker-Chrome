@@ -24,12 +24,14 @@ jobs:
       - name: Notify Start on Discord
         run: |
           TIMESTAMP=$(TZ=Asia/Manila date +"%Y-%m-%d %H:%M:%S %Z %z")
-          MESSAGE="**🛠️ Build Started**\n\n"
-          MESSAGE+="**📦 Repository:** ${{ github.repository }}\n\n"
-          MESSAGE+="**🌱 Branch:** ${{ github.ref }}\n\n"
-          MESSAGE+="**🕒 Triggered at:** ${TIMESTAMP}"
-          JSON_PAYLOAD=$(jq -n --arg content "$MESSAGE" '{"content":$content}')
+          JSON_PAYLOAD=$(jq -n --arg title "🛠️ Build Started" \
+            --arg repo "**📦 Repository:** ${{ github.repository }}" \
+            --arg branch "**🌱 Branch:** ${{ github.ref }}" \
+            --arg time "**🕒 Triggered at:** ${TIMESTAMP}" \
+            '{ "embeds": [{ "title": $title, "description": ($repo + "\n" + $branch + "\n" + $time) }] }')
+          
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD"
+
 
 
       - name: Build and Push Image
