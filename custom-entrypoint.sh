@@ -8,19 +8,7 @@ export DISPLAY=$(pgrep -a Xvfb | grep -o ':[0-9]\+')
 URL=${URL:-""}
 
 launch_browser() {
-    /usr/bin/google-chrome-stable \
-    --no-first-run \                      # Skip initial setup prompts
-    --no-default-browser-check \          # Suppress default browser confirmation
-    --no-managed-user-acknowledgment \     # Skip managed user notifications
-    --no-sandbox \                         # Run without sandboxing (use with caution!)
-    --no-process-singleton-dialog \        # Suppress process singleton warnings
-    --disable-dbus \                        # Disable DBus for reduced system dependencies
-    --disable-gpu \                        # Disable GPU acceleration
-    --ignore-gpu-blocklist \               # Ignore GPU compatibility checks
-    --disable-gpu-driver-bug-workarounds \ # Prevent Chrome from applying known driver fixes
-    --use-gl=swiftshader \                 # Force SwiftShader for graphics rendering
-    --enable-unsafe-swiftshader \          # Allow unsafe SwiftShader optimizations
-    "$1" >/dev/null 2>&1 &
+    /usr/bin/google-chrome-stable --no-first-run --no-default-browser-check --no-managed-user-acknowledgment --no-sandbox --no-process-singleton-dialog --disable-dbus --disable-gpu --ignore-gpu-blocklist --disable-gpu-driver-bug-workarounds --use-gl=swiftshader --enable-unsafe-swiftshader "$1" >/dev/null 2>&1 &
 }
 
 if [[ -z "$URL" ]]; then
