@@ -32,8 +32,6 @@ jobs:
           
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD"
 
-
-
       - name: Build and Push Image
         run: |
           docker buildx build --platform linux/amd64 \
@@ -43,20 +41,22 @@ jobs:
         if: success()
         run: |
           TIMESTAMP=$(TZ=Asia/Manila date +"%Y-%m-%d %H:%M:%S %Z %z")
-          MESSAGE="**✅ Build Done**\n"
-          MESSAGE+="**📦 Repository:** ${{ github.repository }}\n"
-          MESSAGE+="**🌱 Branch:** ${{ github.ref }}\n"
-          MESSAGE+="**🕒 Completed at:** ${TIMESTAMP}"
-          JSON_PAYLOAD=$(jq -n --arg content "$MESSAGE" '{"content":$content}')
+          JSON_PAYLOAD=$(jq -n --arg title "✅ Build Done" \
+            --arg repo "**📦 Repository:** ${{ github.repository }}" \
+            --arg branch "**🌱 Branch:** ${{ github.ref }}" \
+            --arg time "**🕒 Completed at:** ${TIMESTAMP}" \
+            '{ "embeds": [{ "title": $title, "description": ($repo + "\n" + $branch + "\n" + $time) }] }')
+          
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD"
 
       - name: Notify Failure on Discord
         if: failure()
         run: |
           TIMESTAMP=$(TZ=Asia/Manila date +"%Y-%m-%d %H:%M:%S %Z %z")
-          MESSAGE="**❌ Build Error**\n"
-          MESSAGE+="**📦 Repository:** ${{ github.repository }}\n"
-          MESSAGE+="**🌱 Branch:** ${{ github.ref }}\n"
-          MESSAGE+="**🕒 Failed at:** ${TIMESTAMP}"
-          JSON_PAYLOAD=$(jq -n --arg content "$MESSAGE" '{"content":$content}')
+          JSON_PAYLOAD=$(jq -n --arg title "❌ Build Error" \
+            --arg repo "**📦 Repository:** ${{ github.repository }}" \
+            --arg branch "**🌱 Branch:** ${{ github.ref }}" \
+            --arg time "**🕒 Failed at:** ${TIMESTAMP}" \
+            '{ "embeds": [{ "title": $title, "description": ($repo + "\n" + $branch + "\n" + $time) }] }')
+          
           curl -s -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" -H "Content-Type: application/json" -d "$JSON_PAYLOAD"
