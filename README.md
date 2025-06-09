@@ -1,5 +1,5 @@
 # Dockerized Chrome Kiosk with Discord Webhook Integration
-
+   
 ## Overview
 
 This project provides a lightweight Docker container running **Google Chrome in kiosk mode**, with additional functionality for **capturing screenshots** and **posting them to a Discord webhook**. It leverages **Xvfb for virtual display management** and offers flexible configuration via environment variables.
